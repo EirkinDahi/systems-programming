@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
     printf("%12ld %12ld ",n1, n2);
 
     for(int i = 2; i <= param; i++){
-        if(i == 5){
+        if(i%5 == 0){
             printf("\n");
         }
         n3 = n1 + n2;
