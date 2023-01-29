@@ -3,6 +3,7 @@
 
 int main(int argc, char *argv[]){
     if(argc != 2){
+        printf("Invalid amount of arguments...Program Terminated\n");
         exit(1);
     }
     int param = atoi(argv[1]);
@@ -13,7 +14,6 @@ int main(int argc, char *argv[]){
     }
 
     long n1 = 0, n2 = 1,n3 = 1;
-
     printf("%12ld %12ld ",n1, n2);
 
     for(int i = 2; i <= param; i++){
