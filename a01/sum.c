@@ -12,7 +12,7 @@ int main () {
     //calculations 
     sum = num1 + num2;
 
-    printf("Sum of the above two integers = %d", sum);
+    printf("Sum of the above two integers = %d\n", sum);
 
     return 0;
 }
