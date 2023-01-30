@@ -2,11 +2,13 @@
 #include <stdlib.h> 
 
 int main(int argc, char *argv[]){
+    //checking to make sure arguments are passed
     if(argc == 1){
-        printf("No arguments given...Exiting program\n");
-        exit(1);
+        printf("Invalid arguments given...Exiting program\n");
+        return -1;
     }
-    for(int i = argc - 1; i > 0; i--){
+    int i ;
+    for(i = argc - 1; i > 0; i--){
         printf("%s ", argv[i]);
     }
     printf("\n");
