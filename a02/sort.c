@@ -5,39 +5,78 @@ void swap(int *x, int *y);
 void selectionSort(int arr[],int n);
 int partition(int arr[], int low, int high);
 void quickSort(int arr[], int low, int high);
+void print_array(int *ptr, int n);
+void print_menu();
+void operation_0();
+void operation_1();
 
 const int SIZE = 10;
 const int LENGTH = 10; 
 
 int main(int argc, char *argv[]){
+    int userInput;
 
-    int i= 0;
-    int a[SIZE];
-    int b[SIZE];
-    // int *ptr = &a;
-    // int *ptr_b = &b;
+    do {
+        print_menu();
+        scanf(" %d", &userInput);
+        switch(userInput) {
+            case 0:
+                operation_0();
+                break;
+            case 1:
+                operation_1();
+                break;
 
-    // printf("%d ", *(ptr + 1));
-    for(i = 0; i < SIZE; i++){
-        *(a + i) = rand() % SIZE + 1;
-        printf("%d \n", *(a + i));
-    }
-    printf("\n");
-    for(i = 0; i < SIZE; i++){
-        *(b + i) = *(a+ i); 
-        printf("%d \n", *(b+ i));
-    }
-    printf("\n");
-    quickSort(b, 0, SIZE -1);
-    for(i = 0; i < SIZE; i++){
-        printf("%d \n", *(b+ i));
-    }
+        }
+    } while(userInput != 2);
 
     return 0;
 }
 
+void print_menu(){
 
-void print_array(int *ptr) {
+    printf("\nChoose an operation:\n");
+    printf("0 -- correctness testing\n");
+    printf("1 -- performance testing\n");
+    printf("2 -- quit\n");
+}
+
+void operation_1() {
+
+    /*
+    Randomly generate 50000 integers between 1-50000 and hold into a[],
+    Copy a[] to b[], sort array using selection sort and output the sorting time
+    Copy a[] to b[], sort array using quick sort and output the sorting time 
+    */
+
+
+    int i= 0;
+    int a[SIZE];
+    int b[SIZE];
+
+    //generating random integers for array A, copying into array B
+    for(i = 0; i < SIZE; i++){
+        *(a + i) = rand() % SIZE + 1;
+        *(b + i) = *(a+ i); 
+    }
+
+    printf("Array A: ");
+    print_array((&a[0]), SIZE);
+    
+    printf("Array B: ");
+    print_array((&b[0]), SIZE);
+
+    //quick sort array B
+    quickSort(b, 0, SIZE -1);
+    printf("Quick sort: ");
+    print_array(&b[0], SIZE);
+
+    
+
+
+}
+
+void print_array(int *ptr, int n) {
     for (int i = 0; i<LENGTH; i++) {
         printf(" %d", ptr[i]);
     }
@@ -86,7 +125,7 @@ void quickSort(int arr[], int low, int high){
     }
 }
 
-void operation_0(int *ptr, int *ptr2) {
+void operation_0() {
 
     /*
     store random numbers (between 1-100) into array a[]
@@ -95,6 +134,10 @@ void operation_0(int *ptr, int *ptr2) {
     calculate the average of those numbers and print the average in proper format
     */
 
+        int a[10], b[10];
+        int *ptr, *ptr2;
+        ptr = &a[0];
+        ptr2 = &b[0];
    //generating random numbers between 1-100 into array a[]
         float avg;
         float sum;
@@ -106,14 +149,14 @@ void operation_0(int *ptr, int *ptr2) {
         }
 
         printf("Array A:");
-        print_array(ptr);
+        print_array(ptr, LENGTH);
 
         printf("Array B:");
-        print_array(ptr2);
+        print_array(ptr2,LENGTH);
 
         printf("Selection sort:");
         selectionSort(ptr2, LENGTH);
-        print_array(ptr2);
+        print_array(ptr2, LENGTH);
 
         //copying array a to array b
         for (int i = 0; i < LENGTH; i++) {
@@ -122,11 +165,11 @@ void operation_0(int *ptr, int *ptr2) {
         }
         printf("Copying Array A to Array B...\n");
         printf("Array B:");
-        print_array(ptr2);
+        print_array(ptr2, LENGTH);
 
         printf("Quick sort:");
         quickSort(ptr2, 0, LENGTH - 1);
-        print_array(ptr2);
+        print_array(ptr2, LENGTH);
 
         //calculating the average 
         avg = sum/LENGTH;
