@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 void swap(int *x, int *y);
 void selectionSort(int arr[],int n);
@@ -53,6 +54,8 @@ void operation_1() {
     int i= 0;
     int a[SIZE];
     int b[SIZE];
+    clock_t start, end;
+    double cpu_time_used;
 
     //generating random integers for array A, copying into array B
     for(i = 0; i < SIZE; i++){
@@ -66,12 +69,22 @@ void operation_1() {
     printf("Array B: ");
     print_array((&b[0]), SIZE);
 
-    //quick sort array B
-    quickSort(b, 0, SIZE -1);
-    printf("Quick sort: ");
-    print_array(&b[0], SIZE);
+    //selection sort array B
+    start = clock();
+    selectionSort(b, SIZE);
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("It takes %.6f seconds to sort the array by selection sort.\n",cpu_time_used);
 
-    
+    for(i = 0; i < SIZE; i++){
+        *(b + i) = *(a+ i); 
+    }
+
+    start = clock();
+    quickSort(b, 0, SIZE -1);
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("It takes %.6f seconds to sort the array by quick sort.\n",cpu_time_used);
 
 
 }
