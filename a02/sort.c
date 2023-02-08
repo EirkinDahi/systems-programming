@@ -7,6 +7,7 @@ int partition(int arr[], int low, int high);
 void quickSort(int arr[], int low, int high);
 
 const int SIZE = 10;
+const int LENGTH = 10; 
 
 int main(int argc, char *argv[]){
 
@@ -35,6 +36,13 @@ int main(int argc, char *argv[]){
     return 0;
 }
 
+
+void print_array(int *ptr) {
+    for (int i = 0; i<LENGTH; i++) {
+        printf(" %d", ptr[i]);
+    }
+    printf("\n");
+}
 
 void swap(int *x, int *y){
     int temp = *x;
@@ -76,4 +84,55 @@ void quickSort(int arr[], int low, int high){
         quickSort(arr, low, pivot - 1);
         quickSort(arr, pivot + 1, high);
     }
+}
+
+void operation_0(int *ptr, int *ptr2) {
+
+    /*
+    store random numbers (between 1-100) into array a[]
+    copy array a[] to array b[]
+    sort array b[] using quick sort
+    calculate the average of those numbers and print the average in proper format
+    */
+
+   //generating random numbers between 1-100 into array a[]
+        float avg;
+        float sum;
+
+        //random integers in array A, copy to array B
+        for (int i = 0; i < LENGTH; i++) {
+            ptr[i] = 1 + (rand() % 100);
+            ptr2[i] = ptr[i];
+        }
+
+        printf("Array A:");
+        print_array(ptr);
+
+        printf("Array B:");
+        print_array(ptr2);
+
+        printf("Selection sort:");
+        selectionSort(ptr2, LENGTH);
+        print_array(ptr2);
+
+        //copying array a to array b
+        for (int i = 0; i < LENGTH; i++) {
+            ptr2[i] = ptr[i];
+            sum += ptr[i];
+        }
+        printf("Copying Array A to Array B...\n");
+        printf("Array B:");
+        print_array(ptr2);
+
+        printf("Quick sort:");
+        quickSort(ptr2, 0, LENGTH - 1);
+        print_array(ptr2);
+
+        //calculating the average 
+        avg = sum/LENGTH;
+    
+        //printing average
+        printf("Average is: %.2f", avg);
+        
+
 }
