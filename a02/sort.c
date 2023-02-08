@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+ #include <time.h>
 
 void swap(int *x, int *y);
 void selectionSort(int arr[],int n);
@@ -10,7 +11,8 @@ const int SIZE = 10;
 const int LENGTH = 10; 
 
 int main(int argc, char *argv[]){
-
+    clock_t start, end;
+    double cpu_time_used;
     int i= 0;
     int a[SIZE];
     int b[SIZE];
@@ -20,18 +22,38 @@ int main(int argc, char *argv[]){
     // printf("%d ", *(ptr + 1));
     for(i = 0; i < SIZE; i++){
         *(a + i) = rand() % SIZE + 1;
-        printf("%d \n", *(a + i));
+        // printf("%d \n", *(a + i));
     }
-    printf("\n");
+
     for(i = 0; i < SIZE; i++){
         *(b + i) = *(a+ i); 
-        printf("%d \n", *(b+ i));
+        // printf("%d \n", *(b+ i));
     }
-    printf("\n");
+
+
+
+
+    start = clock();
     quickSort(b, 0, SIZE -1);
-    for(i = 0; i < SIZE; i++){
-        printf("%d \n", *(b+ i));
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("It takes %.6f seconds to sort the array by quick sort.\n",cpu_time_used);
+
+
+   for(i = 0; i < SIZE; i++){
+        *(b + i) = *(a+ i); 
+        // printf("%d \n", *(b+ i));
     }
+
+    start = clock();
+    selectionSort(b, SIZE);
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("It takes %.6f seconds to sort the array by selection sort.\n",cpu_time_used);
+
+    // for(i = 0; i < SIZE; i++){
+    //     printf("%d \n", *(b+ i));
+    // }
 
     return 0;
 }
