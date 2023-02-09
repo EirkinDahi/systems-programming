@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 void swap(int *x, int *y);
 void selectionSort(int arr[],int n);
@@ -35,7 +36,7 @@ int main(int argc, char *argv[]){
 
 void print_menu(){
 
-    printf("\nChoose an operation:\n");
+    printf("\n\nChoose an operation:\n");
     printf("0 -- correctness testing\n");
     printf("1 -- performance testing\n");
     printf("2 -- quit\n");
@@ -48,11 +49,11 @@ void operation_1() {
     Copy a[] to b[], sort array using selection sort and output the sorting time
     Copy a[] to b[], sort array using quick sort and output the sorting time 
     */
-
-
     int i= 0;
     int a[SIZE];
     int b[SIZE];
+    clock_t start, end;
+    double cpu_time_used;
 
     //generating random integers for array A, copying into array B
     for(i = 0; i < SIZE; i++){
@@ -60,25 +61,34 @@ void operation_1() {
         *(b + i) = *(a+ i); 
     }
 
-    printf("Array A: ");
-    print_array((&a[0]), SIZE);
-    
-    printf("Array B: ");
-    print_array((&b[0]), SIZE);
 
-    //quick sort array B
+    //selection sort time
+    start = clock();
+    selectionSort(b, SIZE);
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("It takes %.6f seconds to sort the array by selection sort.\n",cpu_time_used);
+
+    //copying array A to array B 
+    for(i = 0; i < SIZE; i++){
+        *(b + i) = *(a+ i); 
+    }
+
+    //quick sort time
+    start = clock();
     quickSort(b, 0, SIZE -1);
-    printf("Quick sort: ");
-    print_array(&b[0], SIZE);
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("It takes %.6f seconds to sort the array by quick sort.\n",cpu_time_used);
 
-    
 
 
 }
 
 void print_array(int *ptr, int n) {
+    int i = 0;
     for (int i = 0; i<LENGTH; i++) {
-        printf(" %d", ptr[i]);
+        printf("%d ", ptr[i]);
     }
     printf("\n");
 }
@@ -133,28 +143,25 @@ void operation_0() {
     sort array b[] using quick sort
     calculate the average of those numbers and print the average in proper format
     */
-
+        int i= 0;
         int a[10], b[10];
         int *ptr, *ptr2;
         ptr = &a[0];
         ptr2 = &b[0];
-   //generating random numbers between 1-100 into array a[]
         float avg;
         float sum;
 
         //random integers in array A, copy to array B
         for (int i = 0; i < LENGTH; i++) {
+            //generating random numbers between 1-100 into array a[]
             ptr[i] = 1 + (rand() % 100);
             ptr2[i] = ptr[i];
         }
 
-        printf("Array A:");
+        printf("Randomly generated array of length 10 is\n");
         print_array(ptr, LENGTH);
 
-        printf("Array B:");
-        print_array(ptr2,LENGTH);
-
-        printf("Selection sort:");
+        printf("Sorted by selection sort:\n");
         selectionSort(ptr2, LENGTH);
         print_array(ptr2, LENGTH);
 
@@ -163,11 +170,8 @@ void operation_0() {
             ptr2[i] = ptr[i];
             sum += ptr[i];
         }
-        printf("Copying Array A to Array B...\n");
-        printf("Array B:");
-        print_array(ptr2, LENGTH);
 
-        printf("Quick sort:");
+        printf("Sorted by quick sort:\n");
         quickSort(ptr2, 0, LENGTH - 1);
         print_array(ptr2, LENGTH);
 
