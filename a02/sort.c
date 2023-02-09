@@ -74,13 +74,11 @@ void operation_1() {
         *(b + i) = *(a+ i); 
     }
 
-    //quick sort time
-    start = clock();
+    //quick sort array B
     quickSort(b, 0, SIZE -1);
     end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
     printf("It takes %.6f seconds to sort the array by quick sort.\n",cpu_time_used);
-
 
 
 }
