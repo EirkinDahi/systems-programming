@@ -1,0 +1,24 @@
+Using Unix I/O system calls to read a file by 1 bytes per read
+Unix read's elapsed time	= 11
+Using C functions to read a file by 1 bytes per read
+C fgetc's elapsed time	= 1
+Using Unix I/O system calls to read a file by 256 bytes per read
+Unix read's elapsed time	= 4
+Using C functions to read a file by 256 bytes per read
+C fread's elapsed time	= 6
+Using Unix I/O system calls to read a file by 512 bytes per read
+Unix read's elapsed time	= 4
+Using C functions to read a file by 512 bytes per read
+C fread's elapsed time	= 5
+Using Unix I/O system calls to read a file by 1024 bytes per read
+Unix read's elapsed time	= 3
+Using C functions to read a file by 1024 bytes per read
+C fread's elapsed time	= 4
+Using Unix I/O system calls to read a file by 2048 bytes per read
+Unix read's elapsed time	= 3
+Using C functions to read a file by 2048 bytes per read
+C fread's elapsed time	= 5
+Using Unix I/O system calls to read a file by 2096 bytes per read
+Unix read's elapsed time	= 4
+Using C functions to read a file by 2096 bytes per read
+C fread's elapsed time	= 4

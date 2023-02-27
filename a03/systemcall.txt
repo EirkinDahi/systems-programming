@@ -1,0 +1,3 @@
+Majority of the time, between the two functions, read() is seen to be faster. 
+This could be due to read() having the number of bytes specified in the function call and being lower level than fread(). 
+However, at smaller amounts of data, fread() is seen to be faster. 

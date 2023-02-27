@@ -1,97 +1,87 @@
-#include <fcntl.h> // open
-#include <unistd.h> // read
-#include <sys/types.h> // read
-//#include <sys/uio.h> // read
-#include <stdio.h> // fopen, fread
+#include <fcntl.h> /* open */
+#include <unistd.h> /*  read */
+#include <sys/types.h> /* read */
+#include <sys/uio.h> // read
+#include <stdio.h> /* fopen, fread */
 #include <stdlib.h>
-#include <sys/time.h> // gettimeofday
+#include <sys/time.h> /* gettimeofday */
+#include <string.h> 
 
-struct timeval start, end; // maintain starting and finishing wall time.
+struct timeval start, end; /* maintain starting and finishing wall time. */
 
-void startTimer( ) { // memorize the starting time
+void startTimer( ) { /* memorize the starting time */
     gettimeofday( &start, NULL );
 }
-void stopTimer( char *str ) { // checking the finishing time and computes the elapsed time
+void stopTimer( char *str ) { /* checking the finishing time and computes the elapsed time */
     gettimeofday( &end, NULL );
     printf("%s's elapsed time\t= %ld\n",str, ( end.tv_sec - start.tv_sec ) * 1000000 +
     (end.tv_usec - start.tv_usec));
 }
 int main( int argc, char *argv[] ) {
-    int typeofcalls, numbytes;
+    int typeofcall, numbytes;
+    numbytes = atoi(argv[2]);
+    typeofcall = atoi(argv[3]);
     
-    // validate arguments -0. file name,  1. name of file to be read, 2. number of bytes to read, 3. type of I/O call (1 or 2)
-    //invalid arguments: invalid number of arguments, file argument that doesn't exist, invalid number of bytes/buffer size,
-    //ex neg number of bytes, the type of I/O calls entered is invalid
-    //ex unixio filename 1024: 0:argv[0] the program name, 1 : argv[1] = the file name, argv[2] = number of bytes to read, argv[3] = type of call (1 or 2)
-    // implementation
-
-    //invalid number of arguments 
-
-    //file argument doesn't exist
-    if (fopen(argv[1], "r") == NULL) {
-        fprintf(stderr, "usage: %s filename does not exist\n", argv[1]);
-        exit(EXIT_FAILURE);
-    }
-    //invalid number of bytes size
-    
-    //invalid type of I/O call
-    if (*argv[3] != '1' || *argv[3] != '2') {
-        fprintf(stderr, "usage: %s type I/O call invalid (1 or 2)\n", argv[3]);
+    /* error checking */
+    if(argc != 4){
+        fprintf(stderr, "usage: %s: invalid amount of arguemnents\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
-    // Parsing the arguments passed to your C programs
-    // Including the number of bytes to read per read( ) or fread( ), and
-    // the type of i/o calls used
-    // implementation
+    if(numbytes < 0){
+        fprintf(stderr, "usage: %s: invalid amount of bytes\n", argv[2]);
+        exit(EXIT_FAILURE);
+    }
 
-    numbytes = (int) *argv[2];
-    typeofcalls = (int) *argv[3];
+    if(typeofcall != 0 && typeofcall != 1){
+        fprintf(stderr, "usage: %s: invalid type of call\n", argv[3]);
+        exit(EXIT_FAILURE);
+    }
 
-
-    if (typeofcalls == 1) {
-        // Use unix I/O system calls
-        // open: is a Unix system call that opens a given file.
-        // read: is a Unix system call that reads a file into a given buffer.
-        // close: is a Unix system call that closes a given file
-        // implementation
-        
-    
-
-        printf("Using Unix I/O systems calls to read a file by %d bytes per read");
- 
-
-    } else if (typeofcalls == 0) {
-        // Use standard I/O
-        // fopen: is a C standard I/O function that opens a given file.
-        // fgetc: is a C standard I/O function that reads one byte from a file.
-        //note: when the number of bytes to read is 1, fgetc() needs to be used to read the file
-        // fread: is a C standard I/O function that reads a file into a given data structure.
-        // fclose: is a C standard I/O function that closes a give file.
-        // implementation
-        
-        FILE *fp;
-        fp = fopen(argv[1], "r");
-        char buffer [100];
-
-        //the note said to use fgetc when the number of bytes is 1 
-        if (numbytes == 1) {
-            startTimer;
-            fgetc(fp);
-            printf("Using C functions to read a file by %d bytes per fread", numbytes);
-            //idk how to use the stoptimer bro im sorry its all u
-            stopTimer(fp);
-
-        } else {
-          
-            
+    if (typeofcall == 1) {
+        int fd = open(argv[1],O_RDONLY);
+        int sz;
+        char *c = (char *) calloc(1000, sizeof(char));
+        /* error checking if file exists or does not */
+        if(fd == -1){
+            fprintf(stderr, "usage: %s: file does not exist\n", argv[1]);
+            exit(EXIT_FAILURE);
         }
+        printf("Using Unix I/O system calls to read a file by %d bytes per read\n",numbytes);
+        startTimer();
+        sz = read(fd, c, numbytes);
+        stopTimer("Unix read");
+        close(fd);
 
-        fclose;
 
-        printf("Using C functions to read a file by %d bytes per fread");
-
-
+    } else if (typeofcall == 0) {
+        FILE *fp;
+        fp = fopen(argv[0],"r");
+        /* error checking if file exists or does not */
+        if(fp == NULL){
+            fprintf(stderr, "usage: %s: file does not exist\n", argv[1]);
+            exit(EXIT_FAILURE);
+        }
+        printf("Using C functions to read a file by %d bytes per read\n",numbytes);
+        /* if number of bytes passed is 1, then we use fgetc() */
+        if(numbytes == 1){
+            do{
+                startTimer();
+                char c = fgetc(fp);
+                if (feof(fp)){
+                    break;
+                }
+            } while(1);
+            stopTimer("C fgetc");
+            fclose(fp);
+        } else{
+            /* using regular fread() */
+            char buffer[10000];
+            startTimer();
+            fread(buffer, numbytes, 1, fp);
+            stopTimer("C fread");
+            fclose(fp);
+        }
     }
     return 0;
 }
