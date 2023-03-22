@@ -7,6 +7,7 @@
 #include    <stdlib.h>
 #include    <unistd.h>
 #include    <string.h>
+#include    <ctype.h>
 
 int main()
 {
@@ -33,14 +34,17 @@ void f(int signum)                      /* this function is called */
         if(strcmp(user_input,"y") == 0){
             printf("Please enter the password: ");
             scanf("%s", user_psswd);
-
-            while(strcmp(psswd,user_psswd) != 0){
+            
+            int i = 1;
+            while(strcmp(psswd,user_psswd) != 0 & i != 2){
                 printf("You have entered an invalid password!\n");
                 printf("Please enter the password: ");
                 scanf("%s", user_psswd);
+                i++;
             }
-            printf("Exiting\n");
-            exit(0);
+            if(strcmp(psswd,user_psswd) == 0){
+                printf("Exiting\n");
+                exit(0);
+            }        
         }
-        
 }
