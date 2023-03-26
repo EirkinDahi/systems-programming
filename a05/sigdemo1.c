@@ -48,7 +48,7 @@ void f(int signum)                      /* this function is called */
             scanf("%s", user_psswd);
             tcsetattr(STDIN_FILENO, TCSANOW, &old);     /*switch to old*/
             int i = 1;
-            while(strcmp(psswd,user_psswd) != 0){
+            while(strcmp(psswd,user_psswd) != 0 && i != 2){
                 tcsetattr(STDIN_FILENO, TCSANOW, &new);     /*toggle new attribute*/
                 printf("You have entered an invalid password!\n");
                 printf("Please enter the password: ");
@@ -56,10 +56,7 @@ void f(int signum)                      /* this function is called */
                 tcsetattr(STDIN_FILENO, TCSANOW, &old);     /*switch to old*/
                 i++;
             }
-            if (i==2) {
-                printf("\nexit\n");
-                exit(0);
-            }
+
             if(strcmp(psswd,user_psswd) == 0){
                 printf("Exiting\n");
                 exit(0);
