@@ -83,7 +83,7 @@ int main() {
 
     // print summary statistics????
     //I NEED HELP !!!! I CANT SEEM TO GET IT TO PRINT
-    //I ODNT EVEN KNOW IF THE TIMERS WORKING
+    //I DON'T EVEN KNOW IF THE TIMERS WORKING
     double avg=total_time/10;
 
     move(0,0);
